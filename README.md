@@ -1,6 +1,6 @@
 # 💼 Salary Loan Calculator (FastAPI + Streamlit + Docker)
 
-A professional, containerized app to calculate salary-based loans using industry-standard DTI constraints and amortization models.
+A containerized app to calculate salary-based loans using industry-standard DTI constraints .
 
 ## 🧱 Tech Stack
 
