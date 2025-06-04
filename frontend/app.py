@@ -5,16 +5,16 @@ from fpdf import FPDF
 import io
 
 st.set_page_config(page_title="Salary Loan Calculator", layout="centered")
-st.title("🏦 Salary Loan Calculator")
+st.title("Salary Loan Calculator")
 
 # Sidebar for defaults
 with st.sidebar:
-    st.header("⚙️ Defaults")
+    st.header("Defaults")
     default_interest = st.slider("Default Annual Interest Rate (%)", 1.0, 30.0, 15.0)
     default_dti = st.slider("Max DTI Ratio", 0.1, 0.6, 0.4)
 
 with st.form("loan_form"):
-    st.subheader("🔢 Loan Details")
+    st.subheader("Loan Details")
 
     gross_salary = st.number_input(
         "Gross Monthly Salary", min_value=0.0, value=1000000.0, step=1000.0
@@ -46,7 +46,7 @@ if submitted:
             res = requests.post("http://backend:8000/calculate-loan", json=payload)
             if res.status_code == 200:
                 data = res.json()
-                st.success("✅ Loan Details Calculated")
+                st.success("Loan Details Calculated")
 
                 # Display metrics
                 st.metric("Monthly Repayment", f"{data['monthly_payment']:.2f} UGX")
@@ -143,7 +143,7 @@ if submitted:
 
                 pdf_bytes: bytes = create_pdf()
                 st.download_button(
-                    label="📄 Download Loan Report as PDF",
+                    label="Download Loan Report as PDF",
                     data=data(pdf_bytes),
                     file_name="salary_loan_report.pdf",
                     mime="application/pdf",
