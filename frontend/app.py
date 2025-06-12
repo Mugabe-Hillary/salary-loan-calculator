@@ -200,11 +200,11 @@ if st.session_state.loan_result:
         st.subheader("Amortization Schedule")
         df_amortization = pd.DataFrame(result["amortization_schedule"])
         st.dataframe(df_amortization.style.format({
-            "starting_balance": "$%.2f",
-            "monthly_payment": "$%.2f",
-            "principal_payment": "$%.2f",
-            "interest_payment": "$%.2f",
-            "ending_balance": "$%.2f"
+            "starting balance": "${:.2f}",
+            "monthly_payment": "${:.2f}",
+            "principal_payment": "${:.2f}",
+            "interest_payment": "${:.2f}",
+            "pending_balance": "${:.2f}"
         }), use_container_width=True)
     else:
         st.warning("Amortization schedule not available for these parameters.")
