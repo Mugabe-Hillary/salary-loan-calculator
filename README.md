@@ -31,20 +31,21 @@ This project is a multi-container FinTech application designed to provide compre
 ## 📦 Project Structure
 
 .
-├── docker-compose.yml # Defines the multi-service application
-├── frontend/ # Contains the Streamlit app
-│ ├── app.py # Streamlit UI and API integration
-│ ├── Dockerfile # Dockerfile for Streamlit service
-│ └── requirements.txt # Python dependencies for frontend
-├── backend/ # Contains the FastAPI app
-│ ├── app/
-│ │ ├── main.py # FastAPI main application and endpoints
-│ │ └── models.py # Pydantic models for request/response validation
-│ ├── Dockerfile # Dockerfile for FastAPI service
-│ └── requirements.txt # Python dependencies for backend
-├── data/ # (Optional) Directory for test data or examples
-│ └── example_amortization.csv # Example: CSV export of an amortization table
-└── README.md # Project documentation
+
+```
+├── docker-compose.yml           # Defines the multi-service application
+├── frontend/                    # Streamlit app (frontend)
+│   ├── app.py                   # Streamlit UI and API integration
+│   ├── Dockerfile               # Dockerfile for Streamlit service
+│   └── requirements.txt         # Python dependencies for frontend
+├── backend/                     # FastAPI app (backend)
+│   ├── app/
+│   │   ├── main.py              # FastAPI main application and endpoints
+│   │   └── models.py            # Pydantic models for request/response validation
+│   ├── Dockerfile               # Dockerfile for FastAPI service
+│   └── requirements.txt         # Python dependencies for backend
+└── README.md                    # Project documentation
+```
 
 ## ⚙️ How to Run Locally
 
@@ -124,7 +125,3 @@ This multi-container application can be deployed to any cloud platform or VPS th
 ## 🤝 Contribution
 
 Feel free to fork this repository, submit pull requests, or open issues if you have suggestions or find bugs.
-
----
-
-This project was guided step-by-step by an AI assistant as part of a learning and development initiative.
