@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+*.bak
+.env
+__pycache__
+*.pyc
+.venv/
+.pytest_cache/
+.vscode/
+target/
+build/
