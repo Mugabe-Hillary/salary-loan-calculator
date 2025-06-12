@@ -1,6 +1,23 @@
 version: '3.8' # Specify the Docker Compose file format version
 
 services:
+  # Frontend Service (Streamlit)
+  frontend:
+    build: ./frontend # Path to the frontend's Dockerfile context
+    container_name: fintech_frontend_app # Assign a custom name to the container
+    ports:
+      - '8501:8501' # Map host port 8501 to container port 8501
+    volumes:
+      # Mount the local frontend code into the container for development
+      - ./frontend:/app
+    environment:
+      PYTHONUNBUFFERED: 1
+    # Ensures the frontend service waits for the backend service to be healthy
+    # before starting. This prevents "Connection refused" errors.
+    depends_on:
+      backend:
+        condition: service_healthy # Wait until the backend's healthcheck passes
+
   # Backend Service (FastAPI)
   backend:
     build: ./backend # Path to the backend's Dockerfile context
@@ -20,20 +37,3 @@ services:
       timeout: 10s # Timeout for each check
       retries: 5 # Number of consecutive failures before marking as unhealthy
       start_period: 20s # Give the container 20 seconds to start up before starting health checks
-
-  # Frontend Service (Streamlit)
-  frontend:
-    build: ./frontend # Path to the frontend's Dockerfile context
-    container_name: fintech_frontend_app # Assign a custom name to the container
-    ports:
-      - '8501:8501' # Map host port 8501 to container port 8501
-    volumes:
-      # Mount the local frontend code into the container for development
-      - ./frontend:/app
-    environment:
-      PYTHONUNBUFFERED: 1
-    # Ensures the frontend service waits for the backend service to be healthy
-    # before starting. This prevents "Connection refused" errors.
-    depends_on:
-      backend:
-        condition: service_healthy # Wait until the backend's healthcheck passes
