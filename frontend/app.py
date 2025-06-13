@@ -87,7 +87,7 @@ with st.form("advance_form", clear_on_submit=False):
         except requests.exceptions.RequestException as e:
             st.error(f"Error during advance calculation: {e}")
             st.session_state.advance_result = None
-        st.experimental_rerun() # Rerun to display results immediately
+        st.rerun() # Rerun to display results immediately
 
 st.markdown("---")
 
@@ -169,8 +169,15 @@ if st.session_state.advance_result:
             st.metric("Associated Fees", f"${result['fees']:.2f}")
         st.metric("Total Advance (Approved + Fees)", f"${result['approved_amount'] + result['fees']:.2f}")
     else:
-        st.error(f"Advance Not Approved: {result.get('message', 'Reason unknown.')}")
-    st.markdown("---")
+        # Get the raw message from the backend
+        backend_message = result.get('message', 'Reason unknown.')
+
+        # Display the main error header
+        st.error("Advance Not Approved:")
+
+        # Use st.text() to display the raw message without any Markdown parsing.
+        # This is the most reliable way to prevent unintended formatting issues.
+        st.text(backend_message)
 
 if st.session_state.loan_result:
     st.subheader("Loan Calculation Result")
