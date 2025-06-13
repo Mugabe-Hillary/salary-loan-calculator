@@ -8,8 +8,11 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
+RUN apt update && \
+    apt install -y curl && \ 
+    pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
+
 
 # Copy the entire backend application directory
 # This copies app/main.py and app/models.py

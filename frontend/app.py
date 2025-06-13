@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+import altair as alt # Import Altair for charting
 
 # --- API Configuration ---
 # Use the service name 'backend' when running with Docker Compose
@@ -10,13 +11,13 @@ BACKEND_API_URL = "http://backend:8000" # For Docker Compose
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="FinTech Calculator",
+    page_title="S&L Calculator",
     page_icon="💰",
     layout="centered",
     initial_sidebar_state="expanded"
 )
 
-st.title("💰 Advanced Salary & Loan Calculator")
+st.title("💰 Salary & Loan Calculator")
 st.markdown("---")
 
 # Initialize session state for results to persist across reruns
@@ -86,7 +87,7 @@ with st.form("advance_form", clear_on_submit=False):
         except requests.exceptions.RequestException as e:
             st.error(f"Error during advance calculation: {e}")
             st.session_state.advance_result = None
-        st.rerun() # Rerun to display results immediately
+        st.experimental_rerun() # Rerun to display results immediately
 
 st.markdown("---")
 
@@ -199,12 +200,26 @@ if st.session_state.loan_result:
     if result.get("amortization_schedule"):
         st.subheader("Amortization Schedule")
         df_amortization = pd.DataFrame(result["amortization_schedule"])
+
+        # Define a mapping from snake_case to "normal" column names
+        column_name_map = {
+            "month": "Month",
+            "starting_balance": "Starting Balance",
+            "monthly_payment": "Monthly Payment",
+            "principal_payment": "Principal Payment",
+            "interest_payment": "Interest Payment",
+            "ending_balance": "Ending Balance",
+        }
+        # Rename the columns
+        df_amortization = df_amortization.rename(columns=column_name_map)
+
+        # Apply formatting to the renamed columns
         st.dataframe(df_amortization.style.format({
-            "starting balance": "${:.2f}",
-            "monthly_payment": "${:.2f}",
-            "principal_payment": "${:.2f}",
-            "interest_payment": "${:.2f}",
-            "pending_balance": "${:.2f}"
+            "Starting Balance": "${:.2f}",
+            "Monthly Payment": "${:.2f}",
+            "Principal Payment": "${:.2f}",
+            "Interest Payment": "${:.2f}",
+            "Ending Balance": "${:.2f}"
         }), use_container_width=True)
     else:
         st.warning("Amortization schedule not available for these parameters.")
@@ -214,7 +229,50 @@ if st.session_state.loan_result:
 # Add a sidebar for general info or future features
 with st.sidebar:
     st.header("About This App")
-    st.info("This is an Advanced Salary & Loan Calculator. It's designed as a multi-container FinTech microservice application.")
-    st.markdown("---")
-    st.write("Developed by AMH \u00A9 2025")
+    st.info("This is a Salary & Loan Calculator. It's designed to be a FinTech microservice application")
 
+    st.markdown("---")
+    st.header("How to Best Utilize")
+    with st.expander("Understanding Salary Advance"):
+        st.write("""
+            - **Gross Monthly Salary:** Input your total monthly income before taxes/deductions. This helps determine your maximum eligible advance.
+            - **Desired Advance Amount:** Request the specific amount you need. The system checks against predefined policies.
+            - **Eligibility:** The app will tell you if your request is approved and show any associated fees.
+        """)
+    with st.expander("Understanding Loan Calculations"):
+        st.write("""
+            - **Desired Loan Amount:** The total amount you wish to borrow.
+            - **Annual Interest Rate:** Input the annual interest rate (e.g., 5.0 for 5%).
+            - **Loan Term (Months):** The duration over which you plan to repay the loan.
+            - **Results:** Get your estimated monthly payment, total interest, and a full amortization schedule detailing each payment breakdown.
+        """)
+    with st.expander("Key Features & Best Practices"):
+        st.write("""
+            - **Microservice Architecture:** Frontend (Streamlit) and Backend (FastAPI) communicate via API calls, promoting scalability.
+            - **Containerization:** Docker ensures consistent environments. Docker Compose orchestrates the services for easy setup.
+            - **Policy-Driven:** Financial policies are defined in the backend, making them easy to adjust without UI changes.
+        """)
+
+    st.markdown("---")
+    st.header("Loan Balance Over Time")
+    if st.session_state.loan_result and st.session_state.loan_result.get("amortization_schedule"):
+        df_plot = pd.DataFrame(st.session_state.loan_result["amortization_schedule"])
+        # Use the renamed columns for plotting for consistency
+        df_plot = df_plot.rename(columns={
+            "month": "Month",
+            "ending_balance": "Ending Balance"
+        })
+
+        chart = alt.Chart(df_plot).mark_line(point=True).encode(
+            x=alt.X('Month:Q', axis=alt.Axis(title='Month Number')),
+            y=alt.Y('Ending Balance:Q', axis=alt.Axis(title='Loan Ending Balance ($)')),
+            tooltip=['Month', alt.Tooltip('Ending Balance', format='$.2f')]
+        ).properties(
+            title='Loan Ending Balance Over Term'
+        ).interactive()
+        st.altair_chart(chart, use_container_width=True)
+    else:
+        st.info("Perform a loan calculation to see the loan balance graph.")
+
+    st.markdown("---")
+    st.write("Developed by AMH \u00a9 2025 [GitHub](https://github.com/Mugabe-Hillary) | [LinkedIn](www.linkedin.com/in/aine-mugabe-hillary-851362279)")
