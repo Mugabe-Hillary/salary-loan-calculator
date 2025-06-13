@@ -89,10 +89,10 @@ You can use these interfaces to test the `/calculate_advance` and `/calculate_lo
 
 ## 🚀 Deployment
 
-This multi-container applicatio deployed to a VPS(Digital Ocean).
+This multi-container application is deployed to a VPS(Digital Ocean).
 
 **Deployment URL:**
-`http://138.68.180.236:8501`
+http://138.68.180.236:8501
 
 **Basic VPS Deployment Steps:**
 
