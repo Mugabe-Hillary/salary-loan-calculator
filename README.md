@@ -54,8 +54,8 @@ To run this application on your local machine, ensure you have Docker and Docker
 1.  **Clone the Repository:**
 
     ```bash
-    git clone [https://github.com/your-username/fintech-calculator.git](https://github.com/your-username/fintech-calculator.git)
-    cd fintech-calculator
+    git clone https://github.com/Mugabe-Hillary/salary-loan-calculator
+    cd salary-loan-calculator
     ```
 
 2.  **Build and Run with Docker Compose:**
