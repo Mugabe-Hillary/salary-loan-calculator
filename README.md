@@ -89,20 +89,19 @@ You can use these interfaces to test the `/calculate_advance` and `/calculate_lo
 
 ## 🚀 Deployment
 
-This multi-container application can be deployed to any cloud platform or VPS that supports Docker and Docker Compose (e.g., DigitalOcean, Linode, AWS EC2, Google Cloud Compute Engine, Render, Railway).
+This multi-container applicatio deployed to a VPS(Digital Ocean).
 
-**Example Deployment URL:**
-(Replace with your actual deployed URL after deployment)
-`http://YOUR_DEPLOYED_SERVER_IP:8501`
+**Deployment URL:**
+`http://138.68.180.236:8501`
 
 **Basic VPS Deployment Steps:**
 
-1.  **Provision a Linux VPS:** (e.g., Ubuntu 22.04 LTS).
-2.  **SSH into Server:** Connect using `ssh your_user@YOUR_SERVER_IP`.
-3.  **Install Docker & Docker Compose:** Follow official Docker installation guides for your OS.
-4.  **Transfer Project Files:** Use `scp -r . your_user@YOUR_SERVER_IP:/path/to/your/app/` from your local machine.
-5.  **Navigate & Run:** `cd /path/to/your/app/` then `docker compose up --build -d`.
-6.  **Configure Firewall:** Open ports `8501` (frontend) and `8000` (backend) if not already. (e.g., `sudo ufw allow 8501/tcp`, `sudo ufw allow 8000/tcp`).
+1.  **Provisioned a Linux VPS:** (Ubuntu 22.04 LTS).
+2.  **SSH into Server:**
+3.  **Installed Docker & Docker Compose:**
+4.  **Transferred Project Files:**
+5.  **Navigated to the working directory & Run:**
+6.  **Configured Firewall:**
 
 ## ⚠️ Assumptions and Limitations
 
